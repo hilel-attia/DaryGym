@@ -25,10 +25,11 @@ class User implements UserInterface, EquatableInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank( message="Ne doit pas être vide")
+/** * @ORM\Column(type="string", length=255) * @Assert\Length( * min = 5, * max = 50, 
+ * * minMessage = "Le nom  doit comporter au moins {{ limit }} caractères",
+ *  * maxMessage = "Le nom  doit comporter au plus {{ limit }} caractères" * )
+ * * @Assert\NotBlank( message="Ne doit pas être vide")
+ 
      */
     private $username;
 
@@ -37,16 +38,24 @@ class User implements UserInterface, EquatableInterface
      */
     private $roles = [];
 
-    /**
-     * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank(message="Ne doit pas être vide")
+    /** * @ORM\Column(type="string", length=255) 
+     * * @Assert\Length( * min = 5, * max = 50, 
+     * * minMessage = "Le nom  doit comporter au moins {{ limit }} caractères",
+     *  * maxMessage = "Le nom  doit comporter au plus {{ limit }} caractères" * )
+     * * @Assert\NotBlank( message="Ne doit pas être vide")
+ 
      */
     private $nomComplet;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
+  
      * @Assert\NotBlank(message="Ne doit pas être vide")
      * @Assert\Email(message="Email invalide")
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     private $email;
 
@@ -60,8 +69,12 @@ class User implements UserInterface, EquatableInterface
      */
     private $deleted;
 
-    /**
-     * @ORM\Column(type="string", length=255))
+
+/**
+     * * @ORM\Column(type="string", length=255) 
+     
+    
+ 
      */
     private $password;
 
@@ -77,12 +90,7 @@ class User implements UserInterface, EquatableInterface
     
 
 
-    public function __construct()
-    {
-        $this->blogPosts = new ArrayCollection();
-        $this->blogPostsCreated = new ArrayCollection();
-        $this->historiques = new ArrayCollection();
-    }
+    
 
     public function getId(): ?int
     {
