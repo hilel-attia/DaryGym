@@ -1,0 +1,40 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contenpage %}
+
+
+
+
+    <h2>Reponse </h2>
+
+    <table id="example" class="display table table-striped table-bordered dataminetables">
+        <thead>
+            <tr>
+                
+                
+                <th>description</th>
+                <th>date_reponse</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reponse in reponse %}
+            <tr>
+                
+                
+                <td>{{ reponse.description }}</td>
+                <td>{{ reponse.date_reponse }}</td>
+                <td>
+                    <a href="{{path ('delete',{id:reponse.id})}}" class="btn btn-dark">Supprimer </a>
+                   </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5"></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   
+{% endblock %}

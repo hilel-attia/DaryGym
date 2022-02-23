@@ -1,0 +1,45 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contenpage %}
+
+
+
+
+    <h2>Reclamation </h2>
+
+    <table id="reclamation" class="display table table-striped table-bordered dataminetables">
+        <thead>
+            <tr>
+                
+                
+                <th>description</th>
+                <th>Titre</th>
+                 <th>nom</th>
+                  <th>prenom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamation %}
+            <tr>
+                
+               
+                <td>{{ reclamation.description }}</td>
+                <td>{{ reclamation.titre }}</td>
+                 <td>{{ reclamation.nom }}</td>
+                  <td>{{ reclamation.prenom }}</td>
+                <td>
+                  <i><a href="{{ path('reclamation_show', {'id': reclamation.id}) }}" class="btn btn-dark">show</a></i>  
+                    
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   
+{% endblock %}

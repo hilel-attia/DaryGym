@@ -17,7 +17,7 @@
                 </div>
                 <div class="profile_info">
                     <span>{{ "backend.global.welcome"|trans }},</span>
-                    <h2>{{ app.user.nomComplet }}</h2>
+                    {# <h2>{{ app.user.nomComplet }}</h2> #}
                 </div>
             </div>
             <!-- /menu profile quick info -->
@@ -36,6 +36,18 @@
                                 <li><a href="{{ path('app_admin_users') }}">{{ "backend.menu.manage"|trans }}</a></li>
                             </ul>
                         </li>
+                        <li><a><i class="fa fa-user"></i>reclamation <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a href="{{ path('reclamation_index') }}">{{ "backend.menu.manage"|trans }}</a></li>
+                            </ul>
+                        </li>
+                        <li><a><i class="fa fa-user"></i>reponse<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li> <a href="{{ path('reponse_index')}}" class="dropdown-item">gerer</a></li>
+                            </ul>
+                        </li>
+                        
+                        
                         {% endif %}
                         
                     </ul>
@@ -58,7 +70,7 @@
                 <ul class=" navbar-right">
                     <li class="nav-item dropdown open" style="padding-left: 15px;">
                         <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ app.user.avatarUrl(30) }}" alt="">{{ app.user.nomComplet }}
+                            {# <img src="{{ app.user.avatarUrl(30) }}" alt="">{{ app.user.nomComplet }} #}
                         </a>
                         <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item"  href="{{ path('app_admin_changepswd') }}"><i class="fa fa-key pull-right"></i>{{ "backend.global.change_my_password"|trans }}</a>
