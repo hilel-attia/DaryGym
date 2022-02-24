@@ -1,0 +1,43 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contenpage %}
+
+    <h1>Exercicecategorie index</h1>
+    <ul class="nav navbar-right panel_toolbox">
+        <li>
+            <a href="{{ path('exercicecategorie_new') }}" class="btn btn-success">NEW</a>
+        </li>
+    </ul>
+    <table id="example" class="display table table-striped table-bordered dataminetables">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>image</th>
+                <th>Libelle</th>
+                <th>supprimer</th>
+                <th>modifier</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exercicecategorie in exercicecategories %}
+            <tr>
+                <td>{{ exercicecategorie.id }}</td>
+                    <td> <img class="-google-plus-circle" src="{{ asset('uploads/images/') ~exercicecategorie.image }}"alt="exercice" width="192" height="140" >  </td>
+                <td>{{ exercicecategorie.libelle }}</td>
+                <td> 	{{ include('exercicecategorie/_delete_form.html.twig') }}</td>
+
+                <td>    <center><a  <button type="button" href="{{ path('exercicecategorie_edit',{"id":exercicecategorie.id }) }}" class="btn btn-primary">modifier {{ exercicecategorie.libelle }}
+
+                        </button> </a> </center></td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contenpage %}
+
+    <h1>Exercices</h1>
+    <ul class="nav navbar-right panel_toolbox">
+        <li>
+            <a href="{{ path('exercice_new') }}" class="btn btn-success">NEW</a>
+        </li>
+    </ul>
+
+    <table id="example" class="display table table-striped table-bordered dataminetables">
+        <thead>
+            <tr>
+                <th>Id</th>
+
+                <th>Image</th>
+                <th>Nom</th>
+                <th>categorie</th>
+                <th>Description</th>
+                <th>Video</th>
+                <th>Docs</th>
+                <th>supprimer</th>
+                <th>modifier</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exercice in exercices %}
+
+            <tr>
+                <td>{{ exercice.id }}</td>
+
+                <td> <img class="-google-plus-circle" src="{{ asset('uploads/images/') ~exercice.image }}"alt="exercice" width="192" height="140" >  </td>
+
+                </td>
+                <td><br> <br> <br> <center> <h3>{{ exercice.nom }}</h3></center></td>
+                <td><br> <br> <br> <center><h3>{{ exercice.exercicecategorie }}</h3></center></td>
+                <td><br> <br> <br> <center><h5>{{ exercice.description }}</h5></center></td>
+                <td> <div style="text-align: center;"> <video controls src="{{ asset('uploads/videos/') ~exercice.video  }}" type="video/mp4" width="192" height="140" </div> video> </td>
+                <td><embed  src="{{ asset('uploads/documents/') ~exercice.docs }}" width="192" height="140"type='application/pdf'/>
+                    <br>
+                    <a href="{{asset('uploads/documents/') ~exercice.docs }}" download>Ce lien télécharge le fichier PDF</a> </td>
+                <iframe id="invisible" style="display:none;"></iframe>
+                <td> 	 {{ include('exercice/_delete_form.html.twig') }}</td>
+                <td>  <br> <br> <br>  <center><a  <button type="button" href="{{ path('exercice_edit',{"id":exercice.id }) }}" class="btn btn-primary">modifier {{ exercice.nom }}
+
+                        </button> </a> </center></td>
+
+
+            </tr>
+
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
