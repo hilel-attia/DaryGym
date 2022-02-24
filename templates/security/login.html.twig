@@ -31,7 +31,7 @@
 {% endblock %}
 {% block bodyclass %}class="login"
 {% endblock %}
-{% block body %}
+{% block body %}>
 	<div>
 		<a class="hiddenanchor" id="signup"></a>
 		<a class="hiddenanchor" id="signin"></a>
@@ -52,10 +52,10 @@
 						</div>
 						<div>
 							<button class="btn btn-success submit" href="index.html">Log in</button>
-							{# <a class="reset_pass" href="{{path('app_forgot_password_request')}}">Lost your password?</a> #}
+							<a class="reset_pass" href="{{path('app_forgot_password_request')}}">Lost your password?</a>
 						</div>
 
-						<div class="separator">
+						{# <div class="separator">
 							<p class="change_link">
 								{{ "backend.login.new_site"|trans }}
 								<a href="#signup" class="to_register">
@@ -75,7 +75,7 @@
 									<a target="_blank" href="darygym.com">darygym<a/></p>
 								</p>
 							</div>
-						</div>
+						</div> #}
 
 						<div class="clearfix"></div>
 						{% if error %}

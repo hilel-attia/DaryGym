@@ -60,14 +60,14 @@ class User implements UserInterface, EquatableInterface
     private $email;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean" )
      */
-    private $valid;
+    private $valid = 0;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $deleted;
+    private $deleted = 0;
 
 
 /**
@@ -85,7 +85,7 @@ class User implements UserInterface, EquatableInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $admin;
+    private $admin =1;
 
     
 
