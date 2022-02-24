@@ -1,0 +1,11 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contenpage %}
+    <h1>Edit Abonnement</h1>
+
+    {{ include('abonnement/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('abonnement_index') }}">retour à la liste des abonnements</a>
+
+    {{ include('abonnement/_delete_form.html.twig') }}
+{% endblock %}
