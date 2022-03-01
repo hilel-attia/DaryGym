@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\EquatableInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
@@ -23,18 +24,21 @@ class User implements UserInterface, EquatableInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 /** * @ORM\Column(type="string", length=255) * @Assert\Length( * min = 5, * max = 50, 
  * * minMessage = "Le nom  doit comporter au moins {{ limit }} caractères",
  *  * maxMessage = "Le nom  doit comporter au plus {{ limit }} caractères" * )
  * * @Assert\NotBlank( message="Ne doit pas être vide")
+ *  * @Groups("post:read")
  
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
+     *  * @Groups("post:read")
      */
     private $roles = [];
 
@@ -43,6 +47,7 @@ class User implements UserInterface, EquatableInterface
      * * minMessage = "Le nom  doit comporter au moins {{ limit }} caractères",
      *  * maxMessage = "Le nom  doit comporter au plus {{ limit }} caractères" * )
      * * @Assert\NotBlank( message="Ne doit pas être vide")
+     *  * @Groups("post:read")
  
      */
     private $nomComplet;
@@ -56,11 +61,14 @@ class User implements UserInterface, EquatableInterface
      *     message = "The email '{{ value }}' is not a valid email.",
      *     checkMX = true
      * )
+     *  * @Groups("post:read")
      */
     private $email;
 
     /**
      * @ORM\Column(type="boolean" )
+     * 
+     * 
      */
     private $valid = 0;
 
@@ -72,6 +80,7 @@ class User implements UserInterface, EquatableInterface
 
 /**
      * * @ORM\Column(type="string", length=255) 
+     *  * @Groups("post:read")
      
     
  
@@ -230,11 +239,11 @@ class User implements UserInterface, EquatableInterface
 
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        /*if (strlen($this->password)< 3){
+        if (strlen($this->password)< 3){
             $context->buildViolation('Mot de passe trop court')
                 ->atPath('justpassword')
                 ->addViolation();
-        }*/
+        }
     }
 
     // /**

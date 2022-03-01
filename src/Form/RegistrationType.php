@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 
 class RegistrationType extends AbstractType
 {
@@ -17,8 +18,10 @@ class RegistrationType extends AbstractType
            
             ->add('nomComplet')
             ->add('email')
+            ->add('captcha', CaptchaType::class) // That's all !
+        
             ->add('password',PasswordType::class)
-           
+            
         ;
     }
 

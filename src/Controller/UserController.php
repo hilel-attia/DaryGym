@@ -96,6 +96,52 @@ class UserController extends BaseController
 
 
 
+/**
+     * @Route("/admin/stat", name="app_admin_stat")
+     */
+    public function statistiques(UserRepository $userRepository){
+      
+        //     // On va chercher toutes les catégories
+        // 
+        $users = $this->userRepository->findAll();
+           $categNom = [];
+        //     $categColor = [];
+             $categCount = [];
+             $deletedCount= [];
+        //     // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+            foreach($users as $user){
+                $categNom[] = $user->getUsername();
+                // $categColor[] = $categorie->getColor();
+               // $categCount[] = $user->getRoles();
+                 $categCount[] = $user->isvalid();
+                 $deletedCount[] = $user->isDeleted();
+                 //$em =$this->getDoctrine()->getEntityManager();
+              //$categCount[] = $createQuery('SELECT COUNT(valid) FROM USER where valid=0');
+            //    $em =$this->getDoctrine()->getEntityManager();
+            //    $query = $em->createQuery('SELECT COUNT(valid) FROM USER where valid=0');
+            //    $resultat = $query ->getResult();
+            //    $categCount[] = $resultat;
+               
+
+           }
+    
+        
+            return $this->render("admin/stat.html.twig", [
+                'categNom' => json_encode($categNom),
+                
+                'categCount' => json_encode($categCount),
+                'deletedCount' => json_encode($deletedCount),
+                
+            ]);
+       
+        
+        }
+
+
+
+
+
+
 
 
 

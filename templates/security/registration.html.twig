@@ -29,23 +29,14 @@
 	<!-- Custom Theme Style -->
 	<link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
 {% endblock %}
-{% block bodyclass %}class="login"
+{% block bodyclass  %}class="login"
 {% endblock %}
 {% block body %}
-
-	<div>
+<center><h1 >Welcome to DaryGYm</h1></center>
+<div class="login_content">
 		
 		<div class="login_wrapper">
-			<div class="animate form login_form">
-				
-			</div>
-			<div id="register" class="animate form registration_form">
-				
-			</div>
-		</div>
-	</div>
-
-{{ form_start(form) }}
+			{{ form_start(form) }}
 {{ form_row(form.email, { 'attr': { 'placeholder': 'Adresse email...' } } ) }}
 {{ form_row(form.username, { 'label':'Nom d\'utilisateur', 'attr': {'placeholder'
 :'Nom d\'utilisateur...' } }) }}
@@ -57,6 +48,10 @@
 passe...' } }) }} #}
  <button type="submit" class="btn btn-success">Inscription</button>
 {{ form_end(form) }}
+		</div>
+	</div>
+
+
 
 
 
