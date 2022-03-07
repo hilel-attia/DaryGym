@@ -130,15 +130,24 @@
 
 
  <h2 class="title-decor">Nos exercices<span><br>en ligne</span></h2>
+ <form method="post" action="{{ path('recherchefront') }}">
+  <label>recherche</label>
+  <input type="text" name="search"><input type="submit" value="recherche">
+
+ </form>
+
 
 
 
   {% for categorie in categories %}
 
-
-    <br><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#{{ categorie.libelle }}">{{ categorie.libelle }}</button>
+<div class="menu_section">
+   <br><br> <br><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#{{ categorie.libelle }}">{{ categorie.libelle }}</button>
 
   {% for exercice in exercices %}
+
+
+
 {% if categorie.libelle==exercice.Exercicecategorie %}
 
   <div id="{{ categorie.libelle }}" class="collapse"><br>
@@ -148,7 +157,7 @@
      <div class="row">
       <div class="col-md-6 out-trainer-col">
        <div class="out-trainer-item">
-        <a  class="fancybox-video" ><video controls src="{{ asset('uploads/videos/') ~exercice.video  }}" type="video/mp4" width="192" height="140"></video>
+        <a  class="fancybox-video" ><img controls src="{{ asset('uploads/images/') ~exercice.image  }}" type="video/mp4" width="192" height="140"></img>
         </a>
         <div class="out-trainer-info">
           <h3><a>{{ exercice.nom }}</a></h3>
@@ -157,9 +166,14 @@
           <div class="span4 collapse-group">
 
            <p> <span class="collapse" id="viewdetails3"> {{ exercice.description }}</span> <a data-toggle="collapse" data-target="#viewdetails3 " style="color: black">More... &raquo;</a></p>
+
           </div>
          </div>
+         <a href="{{ path('exercice_show',{"id":exercice.id }) }}" class="btn btn-primary">regarder </a>
         </div>
+
+
+
 
 
 
@@ -172,11 +186,15 @@
 
  </div>
 
+
 {% endif %}
+
 
  {% endfor %}
  </div>
+
    {% endfor %}
+
 
 
 

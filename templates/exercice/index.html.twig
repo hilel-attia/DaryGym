@@ -1,8 +1,64 @@
 {% extends "admin/bars.html.twig" %}
+{% block javascripts %}
+    <script src="{{ asset('assets/js/jquery.js') }}"></script>
+    <script
+            src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')}}">
+    </script>
+    <script>
+        $( document ).ready(function() {
+            var currentRequest = null;
+            $("#search").keyup(function(e){
+                /* La variable value va prendre la valeur insérer dans le champ de texte
+                afin d’effectuer la recherche */
+                var value = $(this).val();
+                if(currentRequest != null) {
+                    currentRequest.abort();
+                }
+                /* Ajax est lancé lors du remplissage du champ texte dont l’id est
+                « search » pour faire la recherche */
+                currentRequest = $.ajax({
+                    url : "{{ path('exerciceajax') }}",
+                    type : 'GET',
+                    data: {
+                        'searchValue' : value
+                    },
+                    success : function(retour)
+                    {
+
+
+                        $('#example').html(retour);
+                    },
+                });
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
+
 
 {% block contenpage %}
 
+
     <h1>Exercices</h1>
+
+            <h2>Search A Post !!</h2>
+
+
+
+                <div class="input-group custom-search-form">
+
+                    <input type="text" id="search" class="form-control" placeholder="Search here">
+                </div>
+                <!-- /input-group -->
+
+            <div id="all">
+
+            </div>
+
+
     <ul class="nav navbar-right panel_toolbox">
         <li>
             <a href="{{ path('exercice_new') }}" class="btn btn-success">NEW</a>
@@ -12,7 +68,7 @@
     <table id="example" class="display table table-striped table-bordered dataminetables">
         <thead>
             <tr>
-                <th>Id</th>
+
 
                 <th>Image</th>
                 <th>Nom</th>
@@ -25,17 +81,21 @@
             </tr>
         </thead>
         <tbody>
+
         {% for exercice in exercices %}
 
             <tr>
-                <td>{{ exercice.id }}</td>
+
 
                 <td> <img class="-google-plus-circle" src="{{ asset('uploads/images/') ~exercice.image }}"alt="exercice" width="192" height="140" >  </td>
 
                 </td>
                 <td><br> <br> <br> <center> <h3>{{ exercice.nom }}</h3></center></td>
+
                 <td><br> <br> <br> <center><h3>{{ exercice.exercicecategorie }}</h3></center></td>
-                <td><br> <br> <br> <center><h5>{{ exercice.description }}</h5></center></td>
+                  <td> <p>{{ exercice.description }}</p></td>
+
+
                 <td> <div style="text-align: center;"> <video controls src="{{ asset('uploads/videos/') ~exercice.video  }}" type="video/mp4" width="192" height="140" </div> video> </td>
                 <td><embed  src="{{ asset('uploads/documents/') ~exercice.docs }}" width="192" height="140"type='application/pdf'/>
                     <br>
@@ -58,5 +118,6 @@
         </tbody>
     </table>
 
+{{ knp_pagination_render(exercices) }}
 
 {% endblock %}

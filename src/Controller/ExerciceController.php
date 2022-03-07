@@ -3,8 +3,13 @@
 namespace App\Controller;
 
 
+use App\Entity\Comment;
+use App\Entity\User;
+
 use App\Entity\Exercice;
 use App\Entity\Exercicecategorie;
+use App\Form\CommentType;
+
 use App\Form\ExerciceType;
 use App\Repository\ExerciceRepository;
 use App\Repository\ExercicecategorieRepository;
@@ -13,6 +18,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface ;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\Security;
+
 
 
 /**
@@ -23,11 +32,20 @@ class ExerciceController extends AbstractController
     /**
      * @Route("/", name="exercice_index", methods={"GET"})
      */
-    public function index(ExerciceRepository $exerciceRepository): Response
+    public function index(Request $request , PaginatorInterface $paginator)
     {
-        return $this->render('exercice/index.html.twig', [
-            'exercices' => $exerciceRepository->findAll(),
-        ]);
+        $donnees=$this->getDoctrine()->getRepository(Exercice::class)->findAll();
+        $exercices= $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            4
+        );
+
+        return $this->render('exercice/index.html.twig',[
+            'exercices'=>$exercices]);
+
+
+
     }
 
     /**
@@ -76,15 +94,62 @@ class ExerciceController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercice_show", methods={"GET"})
+     * @Route("/{id}", name="exercice_show", methods={"GET", "POST"})
+
+
      */
-    public function show(Exercice $exercice): Response
+    public function show(Exercice $exercice,Request $request, EntityManagerInterface $entityManager): Response
     {
+
+
+        $comment = New Comment();
+        $comment->setPublishedat(new \DateTime('now'));
+        $exercice->getId();
+
+
+        $user=$this->getDoctrine()->getManager()->getRepository(User::class)->findAll();
+
+        $comments=$this->getDoctrine()->getRepository(Comment::class)->findBy(array('exercice'=>$exercice));
+        $form = $this->createFormBuilder($comment)
+            ->add('content')
+
+
+
+
+
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($request->isMethod('post') && $form->isValid())
+        {
+            $currentUser = $this->container->get('security.token_storage')->getToken()->getUser();
+            $comment->setUser($currentUser);
+
+            $comment->setExercice($exercice);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($form->getData());
+            $em->flush();
+
+            return $this->redirectToRoute('exercice_show', ['id'=>$exercice->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+
+
+
         return $this->render('exercice/show.html.twig', [
             'exercice' => $exercice,
+            'comments'=>$comments,
+            'form' => $form->createView(),
+            'user'=>$user
+
         ]);
     }
 
+    public function indexAction(Security $security)
+    {
+        $user = $security->getUser();
+    }
     /**
      * @Route("/{id}/edit", name="exercice_edit", methods={"GET", "POST"})
      */
@@ -138,12 +203,103 @@ class ExerciceController extends AbstractController
      */
    public function afficher()
     {
+
          $categories=$this->getDoctrine()->getRepository(Exercicecategorie::class)->findAll();
+
          $exercices=$this->getDoctrine()->getRepository(Exercice::class)->findBy(array('Exercicecategorie'=>$categories));
 
      return $this->render('front/enligne.html.twig',['exercices'=>$exercices,
-                                                           'categories' =>$categories                    ]);
+                                                           'categories' =>$categories  ]);
 
 
 
-   }}
+   }
+    /**
+     * @Route("/exercice/recherche", name="recherche")
+     */
+    function Recherche(ExerciceRepository $repository,Request $request,PaginatorInterface $paginator){
+        $data=$request->get('search');
+
+      /* $exercices=$this->getDoctrine()->getRepository(Exercice::class)->findBy(['nom'=>$data] );*/
+        $donnees=$this->getDoctrine()->getRepository(Exercice::class)->findBy(['nom'=>$data] );
+        $exercices= $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            4
+        );
+
+
+        return $this->render('exercice/index.html.twig',
+            ['exercices'=>$exercices]);
+    }
+    /**
+     * @Route("/front/enligne/recherche", name="recherchefront")
+     */
+    function Recherchefront(ExerciceRepository $repository,Request $request){
+        $data=$request->get('search');
+
+        $categories=$this->getDoctrine()->getRepository(Exercicecategorie::class)->findAll();
+        $exercices=$this->getDoctrine()->getRepository(Exercice::class)->findBy(['nom'=>$data] );
+
+
+        return $this->render('front/enligne.html.twig',
+            ['exercices'=>$exercices,
+                'categories' =>$categories
+                  ]);
+    }
+    /**
+     * @Route("/{id}", name="exercice_comment", methods={"GET", "POST"})
+     */
+    public function showone()
+    {
+        $comment=new Comment();
+            $formBuilder = $this->createFormBuilder($comment);
+            $formBuilder
+                ->add('content')
+                ->add('publishedat')
+                ->add('User')
+                ->add('exercice')
+            ;
+            $form=$formBuilder->getForm();
+
+
+        return $this->render('exercice/show.html.twig', [
+
+            'comment'=>$comment,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/search/back", name="exerciceajax", methods={"GET","POST"})
+     */
+
+    public function searchexerciceajax(Request $request ,ExerciceRepository $exerciceRepository ,PaginatorInterface $paginator ) :Response
+    {
+        $exerciceRepository = $this->getDoctrine()->getRepository(Exercice::class);
+        $requestString=$request->get('searchValue');
+        $donnees = $exerciceRepository->findOffrebyNom($requestString);
+
+        $exercices= $paginator->paginate(
+            $donnees,
+            $request->query->getInt('page',1),
+            4
+        );
+
+        return $this->render('exercice/index.html.twig', [
+            "donnees "=>$donnees,
+            "exercices"=>$exercices
+
+        ]);
+    }
+
+    public function getRealEntities($entities){
+
+        foreach ($entities as $entity){
+            $realEntities[$entity->getId()] = $entity->getNom();
+        }
+
+        return $realEntities;
+    }
+
+
+}

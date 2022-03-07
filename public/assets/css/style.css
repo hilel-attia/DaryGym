@@ -4635,3 +4635,12 @@ blockquote:before {
 
   .widget-instagram li img {
     height: 100px; } }
+#outer
+{
+  width:100%;
+  text-align: center;
+}
+.inner
+{
+  display: inline-block;
+}

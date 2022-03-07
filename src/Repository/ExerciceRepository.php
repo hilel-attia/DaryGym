@@ -54,6 +54,22 @@ class ExerciceRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-   
+    function SearchExercicecategorie($Exercicecategorie){
+        return  $this->createQueryBuilder('p')
+            ->where('p.Exercicecategorie LIKE ?1' )
+            ->setParameter('1','%'.$Exercicecategorie.'%')
+            ->getQuery()->getResult();
+        //setMaxResults(2);
+    }
+
+    public function findOffrebyNom($nom)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.nom LIKE :nom')
+            ->setParameter('nom', '%'.$nom.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 }

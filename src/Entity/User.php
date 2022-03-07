@@ -74,7 +74,16 @@ class User implements UserInterface, EquatableInterface
      */
     private $admin;
 
-    
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="User", orphanRemoval=true)
+     */
+    private $User;
+
 
 
     public function __construct()
@@ -82,6 +91,8 @@ class User implements UserInterface, EquatableInterface
         $this->blogPosts = new ArrayCollection();
         $this->blogPostsCreated = new ArrayCollection();
         $this->historiques = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->User = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -295,6 +306,9 @@ class User implements UserInterface, EquatableInterface
     {
         return "$this->nomComplet ($this->id)";
     }
+    public function __toString1() :string {
+        return $this->username;
+    }
 
     public function isAdmin(): ?bool
     {
@@ -317,4 +331,65 @@ class User implements UserInterface, EquatableInterface
         return $this->isValid() && !$this->isDeleted() && $this->getPassword() == $user->getPassword() && $this->getUsername() == $user->getUsername()
             && $this->getEmail() == $user->getEmail() ;
     }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getUser(): Collection
+    {
+        return $this->User;
+    }
+
+    public function addUser(Comment $user): self
+    {
+        if (!$this->User->contains($user)) {
+            $this->User[] = $user;
+            $user->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(Comment $user): self
+    {
+        if ($this->User->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getUser() === $this) {
+                $user->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -3,12 +3,25 @@
 namespace App\Entity;
 
 use App\Repository\ExerciceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 
 /**
  * @ORM\Entity(repositoryClass=ExerciceRepository::class)
+ *  @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={
+ *     "get"={"controller"=App\Controller\Api\EmptyController::class,
+ *     "read"=false,
+ *     "deserialize"=false
+ *     }}
+ * )
+
  */
 class Exercice
 {
@@ -16,6 +29,7 @@ class Exercice
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+
      */
     private $id;
 
@@ -44,6 +58,7 @@ class Exercice
      * * minMessage = "la description doit comporter au moins {{ limit }} caractères",
      * * maxMessage = "la description doit comporter au plus {{ limit }} caractères" * )
      * * @Assert\NotBlank( message="Ne doit pas être vide")
+     * @Groups({"read:full:comment"})
      */
     private $description;
 
@@ -62,6 +77,22 @@ class Exercice
      * @ORM\JoinColumn(nullable=false)
      */
     private $Exercicecategorie;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="exercice", orphanRemoval=true)
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="exercice", orphanRemoval=true)
+     */
+    private $exercice;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->exercice = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,5 +171,71 @@ class Exercice
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setExercice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getExercice() === $this) {
+                $comment->setExercice(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getExercice(): Collection
+    {
+        return $this->exercice;
+    }
+
+    public function addExercice(Comment $exercice): self
+    {
+        if (!$this->exercice->contains($exercice)) {
+            $this->exercice[] = $exercice;
+            $exercice->setExercice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExercice(Comment $exercice): self
+    {
+        if ($this->exercice->removeElement($exercice)) {
+            // set the owning side to null (unless already changed)
+            if ($exercice->getExercice() === $this) {
+                $exercice->setExercice(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 }

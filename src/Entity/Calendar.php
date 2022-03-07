@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CalendarRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CalendarRepository::class)
@@ -15,6 +16,7 @@ class Calendar
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -26,6 +28,7 @@ class Calendar
      * * minMessage = "le titre du seance doit comporter au moins {{ limit }} caractères",
      * * maxMessage = "le titre du seance doit comporter au plus {{ limit }} caractères" * )
      * * @Assert\NotBlank( message="Ne doit pas être vide")
+      * @Groups("post:read")
      */
 
     private $title;
@@ -35,6 +38,7 @@ class Calendar
 
      * @Assert\Date()
      * @Assert\GreaterThan("today")
+     * @Groups("post:read")
      */
 
     private $start;
@@ -46,6 +50,7 @@ class Calendar
      *     "this.getStart() < this.getEnd()",
      *     message="La date fin ne doit pas être antérieure à la date début"
      * )
+     * @Groups("post:read")
      */
     private $end;
 
@@ -53,27 +58,32 @@ class Calendar
      * @ORM\Column(type="text")
 
      * * @Assert\NotBlank( message="Ne doit pas être vide")
+     * @Groups("post:read")
      */
     private $description;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("post:read")
 
      */
     private $all_day;
 
     /**
      * @ORM\Column(type="string", length=7)
+     * @Groups("post:read")
      */
     private $background_color;
 
     /**
      * @ORM\Column(type="string", length=7)
+     * @Groups("post:read")
      */
     private $border_color;
 
     /**
      * @ORM\Column(type="string", length=7)
+     * @Groups("post:read")
      */
     private $text_color;
 

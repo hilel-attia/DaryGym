@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Exercice;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,7 @@ class ExerciceType extends AbstractType
             ->add('nom')
             ->add('description')
              ->add('video', FileType::class, array('data_class' => null))
-              ->add('docs', FileType::class, array('data_class' => null))
+            ->add('docs', FileType::class, array('data_class' => null))
 
             ->add('Exercicecategorie')
         ;
