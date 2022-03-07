@@ -6,6 +6,8 @@ use App\Entity\Offres;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
+
 /**
  * @method Offres|null find($id, $lockMode = null, $lockVersion = null)
  * @method Offres|null findOneBy(array $criteria, array $orderBy = null)
@@ -47,4 +49,15 @@ class OffresRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findOffrebytitle($title)
+    {
+        return $this->createQueryBuilder('e')
+        ->where('e.titre LIKE :titre')
+            ->setParameter('titre', '%'.$title.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

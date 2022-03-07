@@ -1,0 +1,45 @@
+ <h1>La liste des Offres</h1>
+
+    <table id="example" class="display table table-striped table-bordered dataminetables">
+
+    <br>
+
+        <thead>
+            <tr>
+                
+                <th>Image</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>supprimer</th>
+                <th>modifier</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for offre in offres %}
+            <tr>
+                
+                <td> <img class="-google-plus-circle" src="{{ asset('uploads/images/') ~ offre.image }}"alt="offre" width="192" height="140" >  </td>
+
+                <td>{{ offre.titre }}</td>
+                <td>{{ offre.description }}</td>
+                <td>{{ offre.prix }}</td>
+                <td> 	
+                        {{ include('admin/offres/_delete_form.html.twig') }}
+                        </td>
+                <td> <a  href="{{ path('offres_edit',{"id":offre.id }) }}">
+                        <i class="btn btn-primary">modifier</i>
+                    </a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+            
+        {% endfor %}
+        </tbody>
+        
+    </table>
+    
+    <a href="{{ path('offres_new') }}">ajouter un Offre</a>
+    <a class="btn btn-primary btn" href="{{ path('listo1') }}">Creer pdf</a>

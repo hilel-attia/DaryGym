@@ -7,7 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
  * @ORM\Entity(repositoryClass=OffresRepository::class)
  */
@@ -17,16 +20,19 @@ class Offres
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=5000)
+     * @Groups("post:read")
      */
     private $image;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $titre;
 
@@ -35,27 +41,29 @@ class Offres
        * @ORM\Column(type="string", length=100)
      * @Assert\Length(
      * * min = 5,
-     * * max = 50,
+     * * max = 200,
      * * minMessage = "la description de l'offre doit comporter au moins {{ limit }} caractères",
      * * maxMessage = "la descrption de l'offre doit comporter au plus {{ limit }} caractères" * )
      * * @Assert\NotBlank( message="Ne doit pas être vide")
+     * @Groups("post:read")
      */
     private $description;
 
     /**
      * @var integer
- *
- * @ORM\Column(name="longueur", type="integer", nullable=true)
+ * @ORM\Column(name="prix", type="float", nullable=true)
  * @Assert\GreaterThanOrEqual(
- *     message = "La longueur doit être supérieure à 0 mm.",
+ *     message = "Le prix doit être supérieure à 0 dt.",
  *     value = 0
  * )
      * @ORM\Column(type="float")
+     * @Groups("post:read")
      */
     private $prix;
 
     /**
      * @ORM\OneToMany(targetEntity=Abonnement::class, mappedBy="Offres", cascade={"all"},orphanRemoval=true)
+     * @Groups("post:read")
      */
     private $abonnements;
 

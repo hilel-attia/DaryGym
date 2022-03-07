@@ -1,44 +1,56 @@
 {% extends "admin/bars.html.twig" %}
 
 {% block contenpage %}
-    <h1>La liste des Offres</h1>
+  <section class="s-crossfit">
+            <div class="container">
+                <h2>Search A Post !!</h2>
 
-    <table id="example" class="display table table-striped table-bordered dataminetables">
+                <div class="sidebar-search">
 
-        <thead>
-            <tr>
-                
-                <th>Image</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>supprimer</th>
-                <th>modifier</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for offre in offres %}
-            <tr>
-                
-                <td> <img class="-google-plus-circle" src="{{ asset('uploads/images/') ~ offre.image }}"alt="offre" width="192" height="140" >  </td>
+                    <div class="input-group custom-search-form">
 
-                <td>{{ offre.titre }}</td>
-                <td>{{ offre.description }}</td>
-                <td>{{ offre.prix }}</td>
-                <td> 	
-                        {{ include('admin/offres/_delete_form.html.twig') }}
-                        </td>
-                <td> <a  href="{{ path('offres_edit',{"id":offre.id }) }}">
-                        <i class="btn btn-primary">modifier</i>
-                    </a></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('offres_new') }}">ajouter un Offre</a>
+                        <input type="text" id="search" class="form-control" placeholder="Search here">
+                    </div>
+                    <!-- /input-group -->
+                </div>
+                <div class="row" id="all">
+                    {% include 'admin/offres/offreajax.html.twig' %}
+                </div>
+                <div class="row" id="search">
+                    
+                </div>
+                <br><br><br><br>
+            </div>
+        </section>
+     <script src="{{ asset('assets/js/jquery.js') }}"></script>
+     <script
+             src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')}}">
+     </script>
+     <script>
+         $( document ).ready(function() {
+             var currentRequest = null;
+             $("#search").keyup(function(e){
+                 /* La variable value va prendre la valeur insérer dans le champ de texte
+                 afin d’effectuer la recherche */
+                 var value = $(this).val();
+                 if(currentRequest != null) {
+                     currentRequest.abort();
+                 }
+                 /* Ajax est lancé lors du remplissage du champ texte dont l’id est
+                 « search » pour faire la recherche */
+                 currentRequest = $.ajax({
+                       url : "{{ path('offreajax') }}",
+                     type : 'GET',
+                     data: {
+                         'searchValue' : value
+                     },
+                     success : function(retour)
+                     {
+                         $('#all').html(retour);
+                     },
+                 });
+                 return false;
+             });
+         });
+     </script>
 {% endblock %}

@@ -10,9 +10,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Knp\Component\Pager\PaginatorInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Ob\HighchartsBundle\Highcharts\Highchart;
+use App\Data\SearchData;
+use App\Form\SearchForm;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\BarChart;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\LineChart;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
- * @Route("/")
+ * @Route("/offre")
  */
 class OffresController extends AbstractController
 {
@@ -41,7 +60,7 @@ class OffresController extends AbstractController
     /**
      * @Route("/new", name="offres_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,FlashyNotifier $flashy): Response
     {
         $offre = new Offres();
         $form = $this->createForm(OffresType::class, $offre);
@@ -58,6 +77,7 @@ $file->move($this->getParameter('photos_directory'),$filename);
 $offre->setImage($filename);
             $entityManager->persist($offre);
             $entityManager->flush();
+            $flashy->success('offre created!', 'http://your-awesome-link.com');
 
             return $this->redirectToRoute('offres_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -124,4 +144,96 @@ $offre->setImage($filename);
     // uniqid(), which is based on timestamps
     return md5(uniqid());
 }
+ /**
+     * @Route("/front/mobile", name="mobile")
+     */
+    public function affichermobile(NormalizerInterface $Normalizer)
+    {
+        $repository=$this->getDoctrine()->getRepository(Offres::class);
+        $offres=$repository->findAll();
+        $jsonContent=$Normalizer->normalize($offres, 'json',['groups'=>'post:read']);
+        return $this->render('front/mobile.html.twig',[
+            'data'=> $jsonContent,
+        ]);
+
+
+    }
+/**
+ * @Route("/addoffreJSON/new",name="ajouteroffreJSON")
+ */
+public function addoffreJSON(Request $request,NormalizerInterface $Normalizer)
+   
+{
+    $em= $this->getDoctrine()->getManager();
+    $offre = new Offres();
+    $offre->setImage($request->get('image'));
+    $offre->setTitre($request->get('Titre'));
+    $offre->setDescription($request->get('description'));
+    $offre->setPrix($request->get('prix'));
+    $em->persist($offre);
+    $em->flush();
+    $jsonContent = $Normalizer->normalize($offre, 'json',['groups'=>'post:read']);
+    return new Response(json_encode($jsonContent));;
+
+} 
+
+/**
+     * @Route("/listo1/back", name="listo1", methods={"GET"})
+     */
+    public function listo1(OffresRepository $offresRepository): Response
+    {
+        // Configure Dompdf according to your needs
+        $pdfoptions = new Options();
+        $pdfoptions->set('defaultFont', 'Arial');
+        $pdfoptions->set('tempDir','.\www\DaryGym\public\uploads\images');
+
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfoptions);
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('admin/offres/listeo1.html.twig', [
+            'offres' => $offresRepository->findAll(),
+        ]);
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (inline view)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => false
+        ]);
+    }
+
+
+
+/**
+     * @Route("/search/back", name="offreajax", methods={"GET"})
+     */
+
+    public function searchoffreajax(Request $request ,OffresRepository $offresRepository ) :Response
+    {
+        $offresRepository = $this->getDoctrine()->getRepository(Offres::class);
+        $requestString=$request->get('searchValue');
+        $offre = $offresRepository->findOffrebytitle($requestString);
+    
+        return $this->render('admin/offres/offreajax.html.twig', [
+            "offres"=>$offre
+        ]);
+    }
+    
+    public function getRealEntities($entities){
+    
+        foreach ($entities as $entity){
+            $realEntities[$entity->getId()] = $entity->getTitre();
+        }
+    
+        return $realEntities;
+    }
+    
+
 }
