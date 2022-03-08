@@ -75,7 +75,9 @@
 									<th>{{ "backend.user.modifier"|trans }}</th>
 									<th>{{ "backend.user.status"|trans }}</th>
 									<th>{{ "backend.user.delete"|trans }}</th>
+									
 								</thead>
+								
 								<tbody>
 									{% for user in users|filter(user => not user.deleted)  %}
 										<tr>
@@ -83,6 +85,7 @@
 											<td>{{ user.username }}</td>
 											<td>{{ user.email }}</td>
 											<td>{{ user.nomComplet }}</td>
+											
 											<td>
 												<a class="btn btn-primary" href="{{ path('app_admin_edit_user',{"id":user.id}) }}">
 													<i class="fa fa-edit"></i>
@@ -114,4 +117,6 @@
 			</div>
 		</div>
 	</div>
+	{{ knp_pagination_render(users) }}
+	
 {% endblock %}

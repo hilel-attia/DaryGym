@@ -6,20 +6,22 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\User;
-use App\Form\ChangePwsdFormType;
 use App\Form\UserFormType;
-use App\Form\PropertySearchType;
-
 use App\Entity\PropertySearch;
+use App\Form\ChangePwsdFormType;
+
+use App\Form\PropertySearchType;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class UserController extends BaseController
 {
@@ -62,22 +64,34 @@ class UserController extends BaseController
         return $this->render("admin/user/user.html.twig", ["users" => $users]);
     }
 
+    // /**
+    //  * @Route("/admin/streaming",name="streaming")
+    //  */
+    // public function stream(){
+    //     return $this->render("admin/user/streaming.html.twig");
+    // }
 
      /**
      * @Route("/admin/user",name="app_admin_users")
      * @IsGranted("ROLE_SUPERUSER")
      */
-    public function search(Request $request)
+    public function search(Request $request,PaginatorInterface $paginator)
     {
     $propertySearch = new PropertySearch();
     $form = $this->createForm(PropertySearchType::class,$propertySearch);
     $form->handleRequest($request);
-    //initialement le tableau des articles est vide,
+    //initialement le tableau des users est vide,
     //c.a.d on affiche les articles que lorsque l'utilisateur
     //clique sur le bouton rechercher
     $data = $form->getData();
-    $users= [];
-   
+    $users= $this->getDoctrine()->getRepository(User::class)->findAll();
+
+    $users = $paginator->paginate(
+        $users, // Requête contenant les données à paginer (ici nos articles)
+        $request->query->getInt('page', 1),
+        3 // Nombre de résultats par page
+        );
+    
     if($form->isSubmitted() && $form->isValid()) {
           
     //on récupère le nom d'article tapé dans le formulaire

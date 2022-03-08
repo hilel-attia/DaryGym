@@ -1,4 +1,21 @@
 {
+    "api-platform/core": {
+        "version": "2.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "05b57782a78c21a664a42055dc11cf1954ca36bb"
+        },
+        "files": [
+            "./config/packages/api_platform.yaml",
+            "./config/routes/api_platform.yaml",
+            "./src/Entity/.gitignore"
+        ]
+    },
+    "btba/chat-bundle": {
+        "version": "dev-master"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -95,6 +112,9 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "fig/link-util": {
+        "version": "1.1.2"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
@@ -104,17 +124,80 @@
     "gregwar/captcha-bundle": {
         "version": "v2.1.5"
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.4.1"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.5.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "2.1.0"
+    },
+    "imagine/imagine": {
+        "version": "1.2.4"
+    },
+    "jms/metadata": {
+        "version": "2.x-dev"
+    },
+    "knplabs/knp-components": {
+        "version": "v3.4.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.8.0"
+    },
+    "knpuniversity/oauth2-client-bundle": {
+        "version": "2.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.20",
+            "ref": "1ff300d8c030f55c99219cc55050b97a695af3f6"
+        },
+        "files": [
+            "./config/packages/knpu_oauth2_client.yaml"
+        ]
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
     "laminas/laminas-json": {
         "version": "3.3.0"
     },
+    "league/oauth2-client": {
+        "version": "2.6.1"
+    },
+    "league/oauth2-facebook": {
+        "version": "2.2.0"
+    },
+    "league/oauth2-google": {
+        "version": "4.0.0"
+    },
+    "liip/imagine-bundle": {
+        "version": "2.9999999",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.8",
+            "ref": "d1227d002b70d1a1f941d91845fcd7ac7fbfc929"
+        }
+    },
     "monolog/monolog": {
         "version": "1.26.1"
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
+    },
+    "nelmio/cors-bundle": {
+        "version": "2.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "6bea22e6c564fba3a1391615cada1437d0bde39c"
+        },
+        "files": [
+            "./config/packages/nelmio_cors.yaml"
+        ]
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -175,11 +258,23 @@
     "psr/container": {
         "version": "1.1.2"
     },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "1.0.0"
     },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -630,6 +725,25 @@
             "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
         }
     },
+    "symfony/webpack-encore-bundle": {
+        "version": "1.14",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.9",
+            "ref": "f466b6384e592cfda11ca2361bbf7c7287b58f55"
+        },
+        "files": [
+            "./assets/app.js",
+            "./assets/bootstrap.js",
+            "./assets/controllers.json",
+            "./assets/controllers/hello_controller.js",
+            "./assets/styles/app.css",
+            "./config/packages/webpack_encore.yaml",
+            "./package.json",
+            "./webpack.config.js"
+        ]
+    },
     "symfony/yaml": {
         "version": "v4.4.37"
     },
@@ -654,7 +768,19 @@
     "twig/twig": {
         "version": "v3.3.8"
     },
+    "vich/uploader-bundle": {
+        "version": "1.9999999",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.7",
+            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
+        }
+    },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "willdurand/negotiation": {
+        "version": "3.1.0"
     }
 }
