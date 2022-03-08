@@ -6,6 +6,8 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 
 class RegistrationType extends AbstractType
 {
@@ -13,13 +15,13 @@ class RegistrationType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add('roles')
+           
             ->add('nomComplet')
             ->add('email')
-            ->add('valid')
-            ->add('deleted')
-            ->add('password')
-            ->add('admin')
+            ->add('captcha', CaptchaType::class) // That's all !
+        
+            ->add('password',PasswordType::class)
+            
         ;
     }
 

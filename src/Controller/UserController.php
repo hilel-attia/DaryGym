@@ -8,6 +8,9 @@ use App\Entity\Role;
 use App\Entity\User;
 use App\Form\ChangePwsdFormType;
 use App\Form\UserFormType;
+use App\Form\PropertySearchType;
+
+use App\Entity\PropertySearch;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,11 +56,95 @@ class UserController extends BaseController
      * @Route("/admin/user",name="app_admin_users")
      * @IsGranted("ROLE_SUPERUSER")
      */
-    public function users()
+    public function index()
     {
         $users = $this->userRepository->findAll();
         return $this->render("admin/user/user.html.twig", ["users" => $users]);
     }
+
+
+     /**
+     * @Route("/admin/user",name="app_admin_users")
+     * @IsGranted("ROLE_SUPERUSER")
+     */
+    public function search(Request $request)
+    {
+    $propertySearch = new PropertySearch();
+    $form = $this->createForm(PropertySearchType::class,$propertySearch);
+    $form->handleRequest($request);
+    //initialement le tableau des articles est vide,
+    //c.a.d on affiche les articles que lorsque l'utilisateur
+    //clique sur le bouton rechercher
+    $data = $form->getData();
+    $users= [];
+   
+    if($form->isSubmitted() && $form->isValid()) {
+          
+    //on récupère le nom d'article tapé dans le formulaire
+    $nomComplet = $propertySearch->getNomComplet();
+ if ($nomComplet!="")
+ //si on a fourni un nom d'article on affiche tous les articles ayant ce nom
+ $users= $this->getDoctrine()->getRepository(User::class)->findBy(['nomComplet' => $nomComplet] );
+ else
+ //si si aucun nom n'est fourni on affiche tous les articles
+ $users= $this->getDoctrine()->getRepository(User::class)->findAll();
+ }
+ return $this->render('admin/user/user.html.twig',[ 'form' =>$form->createView(),'users' => $users]);
+ }
+
+
+
+
+
+/**
+     * @Route("/admin/stat", name="app_admin_stat")
+     */
+    public function statistiques(UserRepository $userRepository){
+      
+        //     // On va chercher toutes les catégories
+        // 
+        $users = $this->userRepository->findAll();
+           $categNom = [];
+        //     $categColor = [];
+             $categCount = [];
+             $deletedCount= [];
+        //     // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+            foreach($users as $user){
+                $categNom[] = $user->getUsername();
+                // $categColor[] = $categorie->getColor();
+               // $categCount[] = $user->getRoles();
+                 $categCount[] = $user->isvalid();
+                 $deletedCount[] = $user->isDeleted();
+                 //$em =$this->getDoctrine()->getEntityManager();
+              //$categCount[] = $createQuery('SELECT COUNT(valid) FROM USER where valid=0');
+            //    $em =$this->getDoctrine()->getEntityManager();
+            //    $query = $em->createQuery('SELECT COUNT(valid) FROM USER where valid=0');
+            //    $resultat = $query ->getResult();
+            //    $categCount[] = $resultat;
+               
+
+           }
+    
+        
+            return $this->render("admin/stat.html.twig", [
+                'categNom' => json_encode($categNom),
+                
+                'categCount' => json_encode($categCount),
+                'deletedCount' => json_encode($deletedCount),
+                
+            ]);
+       
+        
+        }
+
+
+
+
+
+
+
+
+
 
     /**
      * @Route("/admin/user/new",name="app_admin_new_user")

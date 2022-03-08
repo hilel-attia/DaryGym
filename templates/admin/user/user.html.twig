@@ -25,9 +25,24 @@
 						</ul>
 						<div class="clearfix"></div>
 					</div>
+
+{{ form_start(form) }}
+<div class="form-row align-items-end" >
+<div class="col">
+ {{ form_row(form.nomComplet) }}
+</div>
+ <div class="col">
+ <div class="form-group">
+ <button type="submit" class="btn btn-success">Rechercher</button>
+ </div>
+</div>
+</div>
+{{ form_end(form) }}
+
+
 					<div class="x_content">
 						<div class="row">
-							<form action="{{ path('app_admin_groupaction_user') }}" id="grpaction" method="post" name="grpaction">
+							<form action="{{ path('app_admin_groupaction_user') }}" id="grpaction" method="post" name="grpaction"  >
 								<div class="form-group form-inline">
 									<select class="form-control" name="action" required id="action_select">
 										<option value="">
@@ -43,7 +58,15 @@
 								</div>
 
 							</form>
-							<table id="example" class="display table table-striped table-bordered dataminetables">
+
+
+
+
+
+
+
+							
+							<table id="example" class="display table table-striped table-bordered">
 								<thead>
 									<th><input type="checkbox" id="select_all" name="select_all"></th>
 									<th>{{ "backend.user.username"|trans }}</th>

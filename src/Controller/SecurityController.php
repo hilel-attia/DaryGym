@@ -42,7 +42,7 @@ class SecurityController extends AbstractController
     }
     
    /**
-     * @Route("/inscription", name="security_registration")
+     * @Route("/admin/inscription", name="app_inscription")
      */
     public function registration(Request $request, EntityManagerInterface  $em, 
         UserPasswordEncoderInterface $encoder)
@@ -57,7 +57,7 @@ class SecurityController extends AbstractController
         //l'objet $em sera affecté automatiquement grâce à l'injection des dépendances de symfony 4  
            $em->persist($user);
            $em->flush();  
-           return $this->redirectToRoute('security_login');
+           return $this->redirectToRoute('app_login');
         }
        return $this->render('security/registration.html.twig', 
                            ['form' =>$form->createView()]);

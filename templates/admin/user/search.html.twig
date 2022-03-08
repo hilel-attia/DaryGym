@@ -1,0 +1,20 @@
+{# 
+{% block body %}
+
+<div  >
+ <div >
+ {% if userForm is defined %}	
+   {{ form_start(userForm) }}
+   {{ form_row(userForm.nomComplet) }}
+   {{ form_end(userForm) }}
+   {% endif %}
+ </div>
+
+  <div class="col">
+   <div >
+      <button type="submit" class="btn btn-success">Rechercher</button>
+    </div>
+ </div>
+</div>
+ 
+{% endblock %} #}

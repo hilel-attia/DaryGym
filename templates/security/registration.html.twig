@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription
+{% endblock %}
+{% block stylesheets %}
+	<meta
+	http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!-- Meta, title, CSS, favicons, etc. -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta
+	name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap -->
+	<link
+	href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link
+	href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+	<!-- NProgress -->
+	<link
+	href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+	<!-- Animate -->
+	<link
+	href="{{ asset('vendors/animate.css/animate.css') }}" rel="stylesheet">
+	<!-- iCheck -->
+	<link
+	href="{{ asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
+	<!-- Custom Theme Style -->
+	<link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block bodyclass  %}class="login"
+{% endblock %}
+{% block body %}
+<center><h1 >Welcome to DaryGYm</h1></center>
+<div class="login_content">
+		
+		<div class="login_wrapper">
+			{{ form_start(form) }}
+{{ form_row(form.email, { 'attr': { 'placeholder': 'Adresse email...' } } ) }}
+{{ form_row(form.username, { 'label':'Nom d\'utilisateur', 'attr': {'placeholder'
+:'Nom d\'utilisateur...' } }) }}
+{{ form_row(form.nomComplet, { 'label':'Nom d\'nomComplet', 'attr': {'placeholder'
+:'Nom d\'nomComplet...' } }) }}
+{{ form_row(form.password, { 'label':'Mot de passe', 'attr': {'placeholder':'Mot de passe...' } }) }}
+{# {{ form_row(form.confirm_password, { 'label':'Répétez votre mot de passe',
+ 'attr':{'placeholder':'Répétez votre mot de
+passe...' } }) }} #}
+ <button type="submit" class="btn btn-success">Inscription</button>
+{{ form_end(form) }}
+		</div>
+	</div>
+
+
+
+
+
+
+{% endblock %}
