@@ -1,0 +1,23 @@
+{% extends "admin/bars.html.twig" %}
+{% block contenpage %}
+<link rel="stylesheet" href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css')}}" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <h1>Statistique</h1>
+    <canvas id="stat" width="400" height="100"></canvas>
+    
+    <script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js')}}" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+    let stats = document.querySelector('#stat')
+    let stat= new Chart(stats , {
+        type :'pie' ,
+        data : {
+            labels : ['elevee','moyenne','faible'],
+            datasets : [{
+                labels : 'Repartition des categories',
+                data : [ {{ nbrelevee }} , {{ nbrmoyenne }} , {{ nbrfaible }}],
+                backgroundColor : [ 'red' , 'green' , 'orange']
+            }]
+
+        }
+    })
+    </script>
+{% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\Reclamation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ReclamationType extends AbstractType
 {
@@ -17,6 +18,14 @@ class ReclamationType extends AbstractType
             ->add('titre')
             ->add('nom')
             ->add('prenom')
+            ->add('type',ChoiceType::class,[
+                'choices'=>[
+                    'elevee'=>'elevee',
+                    'moyenne'=>'moyenne',
+                    'faible'=>'faible'
+                ]
+            ])
+            
         ;
     }
 

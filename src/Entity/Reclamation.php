@@ -1,19 +1,21 @@
 <?php
-
 namespace App\Entity;
-use App\Repository\ReponseRepository;
+
 use App\Repository\ReclamationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface; 
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ReclamationRepository::class)
  */
 class Reclamation
 {
+   
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -31,10 +33,7 @@ class Reclamation
      */
     private $titre;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Reponse::class, mappedBy="telephone",  cascade={"all"} ,orphanRemoval=true)
-     */
-    private $reponse;
+    
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,6 +44,34 @@ class Reclamation
      * @ORM\Column(type="string", length=255)
      */
     private $prenom;
+
+    
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $statut;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reponse::class, mappedBy="reclamation")
+     */
+    private $reponses;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_At;
+
+    public function __construct()
+    {
+        $this->reponses = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -74,34 +101,7 @@ class Reclamation
         return $this->titre = $titre;
 
     }
-
-
-
-
-
-
-    public function getReponse(): ?Reponse
-    {
-        return $this->reponse;
-    }
-
-    public function setReponse(?Reponse $reponse): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($reponse === null && $this->reponse !== null) {
-            $this->reponse->setTelephone(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($reponse !== null && $reponse->getTelephone() !== $this) {
-            $reponse->setTelephone($this);
-        }
-
-        $this->reponse = $reponse;
-
-        return $this;
-    }
-
+    
     public function getNom(): ?string
     {
         return $this->nom;
@@ -123,6 +123,71 @@ class Reclamation
         return  $this->prenom = $prenom;
 
     }
+   
+    public function getStatut(): ?int
+    {
+        return $this->statut;
+    }
 
+    public function setStatut(int $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reponse>
+     */
+    public function getReponses(): Collection
+    {
+        return $this->reponses;
+    }
+
+    public function addReponse(Reponse $reponse): self
+    {
+        if (!$this->reponses->contains($reponse)) {
+            $this->reponses[] = $reponse;
+            $reponse->setReclamation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReponse(Reponse $reponse): self
+    {
+        if ($this->reponses->removeElement($reponse)) {
+            // set the owning side to null (unless already changed)
+            if ($reponse->getReclamation() === $this) {
+                $reponse->setReclamation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_At;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_At): self
+    {
+        $this->created_At = $created_At;
+
+        return $this;
+    }
     
 }

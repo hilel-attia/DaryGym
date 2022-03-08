@@ -10,6 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 /**
  * @Route("/reclamation")
@@ -19,10 +27,11 @@ class ReclamationController extends AbstractController
     /**
      * @Route("/", name="reclamation_index", methods={"GET"})
      */
-    public function index(ReclamationRepository $reclamationRepository): Response
+    public function index(Request $request ,ReclamationRepository $reclamationRepository): Response
     {
         
-        return $this->render('reclamation/index.html.twig', [
+        
+return $this->render('reclamation/index.html.twig', [
             'reclamation' => $reclamationRepository->findAll(),
         ]);
     }
@@ -37,10 +46,14 @@ class ReclamationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $reclamation->setStatut(0);
+            $reclamation->setCreatedAt(new \Datetime('now'));
             $entityManager->persist($reclamation);
             $entityManager->flush();
-
-            return $this->redirectToRoute('reclamation_index', [], Response::HTTP_SEE_OTHER);
+            
+         return  new Response(
+            '<html><body><script>alert("sayee !")</script></body></html>'
+        );
         }
 
         return $this->render('reclamation/new.html.twig', [
@@ -54,9 +67,7 @@ class ReclamationController extends AbstractController
      */
     public function show(Reclamation $reclamation): Response
     {
-        return $this->render('reclamation/show.html.twig', [
-            'reclamation' => $reclamation,
-        ]);
+        return $this->render('reclamation/show.html.twig', ['reclamation' => $reclamation]);
     }
 
     /**
@@ -68,6 +79,7 @@ class ReclamationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $reclamation->setStatut(0);
             $entityManager->flush();
 
             return $this->redirectToRoute('reclamation_index', [], Response::HTTP_SEE_OTHER);
@@ -105,9 +117,84 @@ class ReclamationController extends AbstractController
        // $em = $this->getDoctrine()->getManager();
         // $em->persist($reclamation);
         // $em->flush();
-        // return $this->redirectToRoute('reclamation_index');
+        // return $this->redirectToRoute('reponse_index');
    // }
    // return $this->render("admin/reponse/index.html.twig",['form'=> $form->createView()]);
+
+   // }
+
+/**
+     * @Route("/search/back", name="reclamationajax", methods={"GET"})
+     */
+
+    public function searchoffreajax(Request $request ,ReclamationRepository $reclamationRepository ) :Response
+    {
+        $reclamationRepository = $this->getDoctrine()->getRepository(Reclamation::class);
+        $requestString=$request->get('searchValue');
+        $reclamation = $reclamationRepository->findReclamationbytitle($requestString);
+    
+        return $this->render('reclamation/reclamationajax.html.twig', [
+            "reclamation"=>$reclamation
+        ]);
+    }
+    
+    public function getRealEntities($entities){
+    
+        foreach ($entities as $entity){
+            $realEntities[$entity->getId()] = $entity->getTitre();
+        }
+    
+        return $realEntities;
+    }
+
+    /**
+     * @Route("/fr/statistique", name="statistique")
+     */
+    public function statistique(ReclamationRepository $repository)
+    {
+        $reclamations = $repository->findall();
+        $nbrelevve = $repository->countelevee();
+        $nbrmoyenne = $repository->countmoyenne();
+        $nbrfaible = $repository->countfaible();
+        $reclaTypeNom = [];
+        foreach( $reclamations as $c )
+        {
+            $reclaTypeNom [] = $c->getType();
+        }
+        return $this->render('reclamation/stat.html.twig',[
+            'TypeNom'=>$reclaTypeNom,
+            'nbrelevee'=>$nbrelevve,
+            'nbrmoyenne'=>$nbrmoyenne,
+            'nbrfaible'=>$nbrfaible
+        ]);
+    }
+
+    /**
+     * @Route("/fr/reclamationtriecroissant ", name="triecroissant")
+     */
+
+    public function trie_croissant(ReclamationRepository $repository)
+    {
+       $repository = $this->getDoctrine()->getRepository(Reclamation::class);
+       $reclamationcroissant = $repository->triecroissant();
+        return $this->render('reclamation/index.html.twig', [
+            "reclamation"=>$reclamationcroissant
+        ]);
+    }
+
+    /**
+     * @Route("/fr/reclamationtriedecroissant ", name="triedecroissant")
+     */
+
+    public function trie_decroissant(ReclamationRepository $repository)
+    {
+        $repository = $this->getDoctrine()->getRepository(Reclamation::class);
+        $reclamationdec = $repository->triedecroissant();
+        return $this->render('reclamation/index.html.twig', [
+            "reclamation"=>$reclamationdec
+        ]);
+    }
+    
 }
 
 

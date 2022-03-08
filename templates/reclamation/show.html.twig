@@ -1,12 +1,6 @@
 {% extends "admin/bars.html.twig" %}
-
 {% block contenpage %}
-
-
-
-
     <h1>Reclamation</h1>
-
     <table class="table">
         <tbody>
             <tr>
@@ -35,30 +29,10 @@
            
         </tbody>
     </table>
-
-
-
-
-
-
-<form>
- 
-  
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Reponse :</label>
-    <textarea class="form-control" rows="3"></textarea>
-  </div>
-
-  <button type="button" class="btn btn-primary">Repondre</button>
-</form>
-
-
-
-
-    <a href="{{ path('reclamation_index') }}">back to list</a>
-
-    <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}">edit</a>
-
-    {{ include('reclamation/_delete_form.html.twig') }}
+    <a href="{{ path('reponse_index') }}">repondre</a>
+     <br>
+     <a href="{{ path('reclamation_index') }}">back to list</a>
+     <br>
+     {{ include('reclamation/_delete_form.html.twig') }}
     
 {% endblock %}

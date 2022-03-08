@@ -1,45 +1,57 @@
 {% extends "admin/bars.html.twig" %}
-
 {% block contenpage %}
+        <section class="s-crossfit">
+            <div class="container">
+                <h2>Search A Post !!</h2>
 
+                <div class="sidebar-search">
 
+                    <div class="input-group custom-search-form">
 
-
-    <h2>Reclamation </h2>
-
-    <table id="reclamation" class="display table table-striped table-bordered dataminetables">
-        <thead>
-            <tr>
+                        <input type="text" id="search" class="form-control" placeholder="Search here">
+                    </div>
+                    <!-- /input-group -->
+                </div>
+                <a class"badge badge-success" href="{{path('triecroissant')}}">Trie croissant</a>
+                <a class"badge badge-danger" href="{{path('triedecroissant')}}">Trie decroissant</a>
+                <div class="row" id="all">
+                    {% include 'reclamation/reclamationajax.html.twig' %}
+                </div>
+                <div class="row" id="search">
                 
-                
-                <th>description</th>
-                <th>Titre</th>
-                 <th>nom</th>
-                  <th>prenom</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for reclamation in reclamation %}
-            <tr>
-                
-               
-                <td>{{ reclamation.description }}</td>
-                <td>{{ reclamation.titre }}</td>
-                 <td>{{ reclamation.nom }}</td>
-                  <td>{{ reclamation.prenom }}</td>
-                <td>
-                  <i><a href="{{ path('reclamation_show', {'id': reclamation.id}) }}" class="btn btn-dark">show</a></i>  
-                    
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-   
+                </div>
+                <br><br><br><br>
+            </div>
+        </section>
+     <script src="{{ asset('assets/js/jquery.js') }}"></script>
+     <script
+             src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')}}">
+     </script>
+     <script>
+         $( document ).ready(function() {
+             var currentRequest = null;
+             $("#search").keyup(function(e){
+                 /* La variable value va prendre la valeur insérer dans le champ de texte
+                 afin d’effectuer la recherche */
+                 var value = $(this).val();
+                 if(currentRequest != null) {
+                     currentRequest.abort();
+                 }
+                 /* Ajax est lancé lors du remplissage du champ texte dont l’id est
+                 « search » pour faire la recherche */
+                 currentRequest = $.ajax({
+                     url : "{{ path('reclamationajax') }}",
+                     type : 'GET',
+                     data: {
+                         'searchValue' : value
+                     },
+                     success : function(retour)
+                     {
+                         $('#all').html(retour);
+                     },
+                 });
+                 return false;
+             });
+         });
+     </script>
 {% endblock %}

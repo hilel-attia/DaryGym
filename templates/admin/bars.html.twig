@@ -36,14 +36,17 @@
                                 <li><a href="{{ path('app_admin_users') }}">{{ "backend.menu.manage"|trans }}</a></li>
                             </ul>
                         </li>
-                        <li><a><i class="fa fa-user"></i>reclamation <span class="fa fa-chevron-down"></span></a>
+                        <li>
+                        <a><i class="fa fa-user"></i>reclamation <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 <li><a href="{{ path('reclamation_index') }}">{{ "backend.menu.manage"|trans }}</a></li>
+                                <li><a href="{{path('statistique')}}">Statistique</a></li>
                             </ul>
                         </li>
                         <li><a><i class="fa fa-user"></i>reponse<span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 <li> <a href="{{ path('reponse_index')}}" class="dropdown-item">gerer</a></li>
+                                <li><a href="{{path('calendrier')}}">Calendrier</a></li>
                             </ul>
                         </li>
                         
