@@ -1,0 +1,40 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contenpage %}
+    <h1>user</h1>
+
+  <img class="-google-plus-circle" src="{{ asset('uploads/images/') ~user.image }}"alt="exercice" width="192" height="140" >
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ user.id }}</td>
+        </tr>
+        <tr>
+            <th>username</th>
+            <td>{{ user.username }}</td>
+
+        </tr>
+        <tr>
+        <th>nom complet</th>
+        <td>{{ user.nomComplet }}</td>
+        </tr>
+        <tr>
+        <th>email</th>
+        <td>{{ user.email}}</td>
+        </tr>
+        <td>
+            <a class="btn btn-primary" href="{{ path('compte',{"id":user.id}) }}">
+                <i class="fa fa-edit"></i>
+            </a>
+        </td>
+
+
+
+        </tbody>
+
+    </table>
+
+
+{% endblock %}

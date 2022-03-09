@@ -94,7 +94,7 @@ class ExerciceController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercice_show", methods={"GET", "POST"})
+     * @Route("/front/enligne/{id}", name="exercice_show", methods={"GET", "POST"})
 
 
      */
@@ -137,7 +137,7 @@ class ExerciceController extends AbstractController
 
 
 
-        return $this->render('exercice/show.html.twig', [
+        return $this->render('front/show.html.twig', [
             'exercice' => $exercice,
             'comments'=>$comments,
             'form' => $form->createView(),
@@ -150,6 +150,7 @@ class ExerciceController extends AbstractController
     {
         $user = $security->getUser();
     }
+
     /**
      * @Route("/{id}/edit", name="exercice_edit", methods={"GET", "POST"})
      */

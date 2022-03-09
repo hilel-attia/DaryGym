@@ -84,6 +84,11 @@ class User implements UserInterface, EquatableInterface
      */
     private $User;
 
+    /**
+     * @ORM\Column(type="string", length=5000)
+     */
+    private $image;
+
 
 
     public function __construct()
@@ -388,6 +393,18 @@ class User implements UserInterface, EquatableInterface
                 $user->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
 
         return $this;
     }

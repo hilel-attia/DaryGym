@@ -1,8 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends "admin/bars.html.twig" %}
 
-{% block title %}Comment index{% endblock %}
 
-{% block body %}
+{% block contenpage %}
 
     <h1>Comment index</h1>
 
@@ -12,7 +11,7 @@
                 <th>Id</th>
                 <th>Content</th>
                 <th>Publishedat</th>
-                <th>actions</th>
+                <th>supprimer</th>
             </tr>
         </thead>
         <tbody>
@@ -22,8 +21,8 @@
                 <td>{{ comment.content }}</td>
                 <td>{{ comment.publishedat ? comment.publishedat|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_comment_show', {'id': comment.id}) }}">show</a>
-                    <a href="{{ path('app_comment_edit', {'id': comment.id}) }}">edit</a>
+
+                    {{ include('comment/delete_commentbyadmin.html.twig') }}
                 </td>
             </tr>
         {% else %}

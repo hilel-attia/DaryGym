@@ -13,8 +13,8 @@
             "./src/Entity/.gitignore"
         ]
     },
-    "blackknight467/star-rating-bundle": {
-        "version": "v2.0.1"
+    "botman/botman": {
+        "version": "2.6.1"
     },
     "doctrine/annotations": {
         "version": "1.13",
@@ -114,6 +114,9 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "evenement/evenement": {
+        "version": "v3.0.1"
+    },
     "fig/link-util": {
         "version": "1.2.0"
     },
@@ -132,6 +135,9 @@
     "monolog/monolog": {
         "version": "2.3.5"
     },
+    "mpociot/pipeline": {
+        "version": "1.0.2"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
@@ -149,6 +155,9 @@
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
+    },
+    "opis/closure": {
+        "version": "3.6.3"
     },
     "phar-io/manifest": {
         "version": "2.0.3"
@@ -209,6 +218,27 @@
     "psr/log": {
         "version": "2.0.0"
     },
+    "react/cache": {
+        "version": "v1.1.1"
+    },
+    "react/dns": {
+        "version": "v1.9.0"
+    },
+    "react/event-loop": {
+        "version": "v1.2.0"
+    },
+    "react/promise": {
+        "version": "v2.9.0"
+    },
+    "react/promise-timer": {
+        "version": "v1.8.0"
+    },
+    "react/socket": {
+        "version": "v1.11.0"
+    },
+    "react/stream": {
+        "version": "v1.2.0"
+    },
     "sebastian/cli-parser": {
         "version": "1.0.1"
     },
@@ -268,6 +298,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "spatie/macroable": {
+        "version": "1.0.1"
     },
     "symfony/asset": {
         "version": "v4.4.37"
@@ -462,9 +495,6 @@
             "./tests/bootstrap.php"
         ]
     },
-    "symfony/polyfill-intl-grapheme": {
-        "version": "v1.24.0"
-    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.24.0"
     },
@@ -547,9 +577,6 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.37"
-    },
-    "symfony/string": {
-        "version": "v6.0.3"
     },
     "symfony/translation": {
         "version": "4.4",
@@ -665,6 +692,9 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
+    },
+    "tightenco/collect": {
+        "version": "v8.83.2"
     },
     "twig/extra-bundle": {
         "version": "v3.3.8"

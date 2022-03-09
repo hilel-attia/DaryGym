@@ -122,57 +122,17 @@
 </body>
 </html>
 
+{% block title %}Edit Comment{% endblock %}
+
 {% block body %}
 
-    <h2 class="title-decor">{{ exercice.exercicecategorie }}<span><br>{{ exercice.nom }}</span></h2>
+    <h1>Edit Comment</h1>
 
-   <center> <video id="player" playsinline controls data-poster="./videos/anime-watch.jpg">
-            <source  src="{{ asset('uploads/videos/') ~exercice.video  }}" type="video/mp4" />
-
-            <!-- Captions are optional -->
-            <track kind="captions" label="English captions" src="#" srclang="en" default />
-        </video></center>
+    {{ include('comment/_form.html.twig', {'button_label': 'Update'}) }}
 
 
 
-
-<div class="form-actions">
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-    {{ form_end(form) }}
-
-</div>
-
-
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-5 col-md-6 col-12 pb-4">
-
-                    <h1>Comments</h1>
-
-                    {% for comment in comments %}
-
-                       <div style="color: #0B7FC7"> <h4>{{ comment.user }}</h4></div>
-
-                        <a href="{{ path('app_comment_edit', {'id': comment.id}) }}">edit</a>
-
-
-
-                      <div style="color: red">  <p> {{ comment.content}}</p></div>
-                    <div style="color: wheat"> <span> {{ comment.publishedat|date }}</span> </div>
-                    {% endfor %}
-
-                    </div>
-
-                </div>
-
-
-        </div>
-    </section>
-
-
-
+   <br> <br><br>{{ include('comment/_delete_form.html.twig') }}
 
 {% endblock %}
+

@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class UserFormType extends AbstractType
+class compteForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -34,16 +34,8 @@ class UserFormType extends AbstractType
                     new NotBlank(["message" => $this->translator->trans('backend.global.must_not_be_empty')])
                 ]
             ])
-            ->add("role", EntityType::class, [
-                "mapped" => false,
-                "class" => Role::class,
-                "required" => true,
-                "placeholder" => $this->translator->trans('backend.role.choice_role'),
-                "constraints" => [
-                    new NotBlank(["message" => $this->translator->trans('backend.global.must_not_be_empty')]),
-                ]
-            ])
-        ->add('image', FileType::class, array('data_class' => null));
+
+            ->add('image', FileType::class, array('data_class' => null));
 
     }
 
