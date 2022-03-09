@@ -36,6 +36,14 @@
                                 <li><a href="{{ path('app_admin_users') }}">{{ "backend.menu.manage"|trans }}</a></li>
                             </ul>
                         </li>
+                            <li><a><i class="fa fa-user"></i> {{ "backend.menu.event"|trans }} <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ path('event-list') }}"><p> Gérer Evenement</p></a></li>
+                                    <li><a href="{{ path('part-list') }}"><p>Gérer Participont</p></a></li>
+                                    <li><a href="{{ path('acceuille') }}"><p>Gérer Acceuill</p></a></li>
+                                </ul>
+                            </li>
+
                         {% endif %}
                         
                     </ul>
