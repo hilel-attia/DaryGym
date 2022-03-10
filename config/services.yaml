@@ -6,6 +6,7 @@
 parameters:
     locale: 'en'
     app_locales: en|fr
+    photos_directory: '%kernel.project_dir%/public/uploads/images/'
 
 services:
     # default configuration for services in *this* file

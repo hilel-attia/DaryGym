@@ -1,0 +1,38 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contenpage %}
+    <h1>La Liste des abonnements</h1>
+
+    <table id="example" class="display table table-striped table-bordered dataminetables">
+
+        <thead>
+            <tr>
+                <th>offres</th>
+                <th>Duree</th>
+                <th>supprimer</th>
+                <th>modifier</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for abonnement in abonnements %}
+            <tr>
+                
+                <td>{{ abonnement.offres }}</td>
+                <td>{{ abonnement.duree }}</td>
+                <td> 	
+                        {{ include('abonnement/_delete_form.html.twig') }}
+                        </td>
+                <td> <a  href="{{ path('abonnement_edit',{"id":abonnement.id }) }}">
+                        <i class="btn btn-primary">modifier</i>
+                    </a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('abonnement_new') }}">ajouter un abonnement</a>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contenpage %}
+    <h1>ajouter un offre</h1>
+
+    {{ include('admin/offres/_form.html.twig') }}
+
+    <a href="{{ path('offres_index') }}">back to list</a>
+{% endblock %}

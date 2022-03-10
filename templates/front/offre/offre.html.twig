@@ -1,0 +1,25 @@
+{% extends 'front/base.html.twig' %}
+{% block  contenpage%}
+
+ <section class="s-crossfit"> 
+   <div class="container"> 
+    <div class="row"> 
+
+    {% for offre in offres %}
+
+              <div class="col-md-4 crossfit-col">
+             <div class="crossfit-item">
+        <div class="border border-dark rounded p-4 clearfix" style="height: 50%; width:100%">
+             <img class="-google-plus-circle" src="{{ asset('uploads/images/') ~ offre.image }}"alt="exercice" width="192" height="140" >   
+            <p style="color: #FFFFFF">{{ offre.titre }}</p> 
+            <p style="color: #FFFFFF">{{ offre.description }}</p>
+            <p style="color: #FFFFFF">{{ offre.prix}}</p>
+             <hr>
+                </div>
+        </div>
+       </div>
+     {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

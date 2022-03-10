@@ -6,7 +6,9 @@
             <meta charset="UTF-8">
         {% endblock %}
         {% block stylesheets %}
+         <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
         {% endblock %}
+       
     </head>
     <body {% block bodyclass %}class="" {% endblock %}>
 
@@ -19,6 +21,13 @@
             {% endif %}
         {% endblock %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        
+
+{% block javascripts %}
+        <script src="//code.jquery.com/jquery.js"></script>
+        <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+        {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+    {% endblock %}
+
     </body>
 </html>
