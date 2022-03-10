@@ -1,0 +1,44 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contenpage %}
+    <h1>Streaming index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Room</th>
+                <th>Name</th>
+                <th>Audio</th>
+                <th>Video</th>
+                <th>Notify</th>
+                 <th>demarrer</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for streaming in streamings %}
+            <tr>
+                <td>{{ streaming.id }}</td>
+                <td>{{ streaming.room }}</td>
+                <td>{{ streaming.name }}</td>
+                <td>{{ streaming.audio ? 'Yes' : 'No' }}</td>
+                <td>{{ streaming.video ? 'Yes' : 'No' }}</td>
+                <td>{{ streaming.notify ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_streaming_show', {'id': streaming.id}) }}">show</a>
+                         <button type="button" {{ "https://sfu.mirotalk.org/join?room=#{streaming.room}&name=#{streaming.name}&audio=#{streaming.audio}&video=#{streaming.video}&notify=#{streaming.notify}" }}> </button>
+                     {# <a href="{{path('http://sfu.mirotalk.org/', {'name': streaming.name}) }}">demmarere</a> #}
+                    <a href="{{ path('app_streaming_edit', {'id': streaming.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_streaming_new') }}">Create new</a>
+{% endblock %}

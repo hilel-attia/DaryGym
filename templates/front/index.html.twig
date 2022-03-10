@@ -14,7 +14,7 @@
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
 		
-
+ <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
 
          <link rel="stylesheet" href="{{ asset("assets/css/slick.min.css") }}">
 	<link rel="stylesheet" href="{{ asset("assets/css/bootstrap-grid.css") }}">
@@ -29,6 +29,8 @@
 	<script src="{{ asset("assets/js/rx-lazy.js") }}"></script>
 	<script src="{{ asset("assets/js/parallax.min.js") }}"></script>
 	<script src="{{ asset("assets/js/scripts.js") }}"></script>
+	 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
         {% endblock %}
     </head>
     <body id="home">
@@ -92,8 +94,12 @@
                    
                  
                     <li><a href="contacts.html">Contacts</a></li>
-					 <li><a  href="{{ path('app_login') }}">Connexion</a></li>
+					<li><a  href="{{ path('app_login') }}">Connexion</a></li>
 					 	 <li><a  href="{{ path('app_inscription') }}">Inscription</a></li>
+=======
+					 <li><a  href="{{ path('app_admin_index') }}">Connexion</a></li>
+					 <li><a href="{{ path('offres') }}">offres</a></li>
+					 <li><a href="{{path('add-abonnement')}}">Abonnement</a></li>
                 </ul>
             </nav>
         </div>
