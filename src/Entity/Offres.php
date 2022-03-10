@@ -67,6 +67,8 @@ class Offres
      */
     private $abonnements;
 
+   
+
     public function __construct()
     {
         $this->abonnements = new ArrayCollection();
@@ -160,7 +162,6 @@ class Offres
 {
     return $this->titre;
 }
-
 
     
     

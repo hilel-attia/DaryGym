@@ -38,10 +38,7 @@
                                 <li><a href="{{ path('app_admin_users') }}">{{ "backend.menu.manage"|trans }}</a></li>
                             </ul>
                         </li>
-
-<<<<<<< HEAD
-=======
-                         <li><a><i class="fa fa-user"></i> {{ "offres"|trans }} <span class="fa fa-chevron-down"></span></a>
+  <li><a><i class="fa fa-user"></i> {{ "offres"|trans }} <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 <li><a href="{{ path('offres_index') }}">{{ "backend.menu.manage"|trans }}</a></li>
                             </ul>
@@ -52,7 +49,8 @@
                                 <li><a href="{{ path('abonnement_index') }}">{{ "backend.menu.manage"|trans }}</a></li>
                             </ul>
                         </li>
->>>>>>> 180cc0c55f287a88002ab3c8bd4eb4c196408a54
+                        <li><a href="{{ path('app_streaming_index') }}"><i class="fa fa-home"></i> streaming</a>
+                        </li>
                         {% endif %}
                         
                     </ul>

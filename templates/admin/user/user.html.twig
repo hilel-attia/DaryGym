@@ -67,6 +67,8 @@
 
 							
 							<table id="example" class="display table table-striped table-bordered">
+							
+							{# <a href="{{ path('excel_list') }}" class="btn btn-sm btn-info">Export Data</a> #}
 								<thead>
 									<th><input type="checkbox" id="select_all" name="select_all"></th>
 									<th>{{ "backend.user.username"|trans }}</th>
@@ -114,4 +116,5 @@
 			</div>
 		</div>
 	</div>
+	{{ knp_pagination_render(users) }}
 {% endblock %}

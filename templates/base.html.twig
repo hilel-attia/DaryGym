@@ -7,6 +7,7 @@
         {% endblock %}
         {% block stylesheets %}
          <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+           <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
         {% endblock %}
        
     </head>
@@ -24,9 +25,8 @@
         
 
 {% block javascripts %}
-        <script src="//code.jquery.com/jquery.js"></script>
-        <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
-        {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+
+
     {% endblock %}
 
     </body>

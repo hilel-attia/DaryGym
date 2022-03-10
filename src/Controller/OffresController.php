@@ -60,7 +60,7 @@ class OffresController extends AbstractController
     /**
      * @Route("/new", name="offres_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager,FlashyNotifier $flashy): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $offre = new Offres();
         $form = $this->createForm(OffresType::class, $offre);
@@ -77,7 +77,7 @@ $file->move($this->getParameter('photos_directory'),$filename);
 $offre->setImage($filename);
             $entityManager->persist($offre);
             $entityManager->flush();
-            $flashy->success('offre created!', 'http://your-awesome-link.com');
+           
 
             return $this->redirectToRoute('offres_index', [], Response::HTTP_SEE_OTHER);
         }
