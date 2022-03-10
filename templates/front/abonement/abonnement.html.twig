@@ -1,0 +1,11 @@
+{% extends 'front/base.html.twig' %}
+
+{% block contenpage %}
+    {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+    <div><p><h2>Abonnement</h2></p></div>
+    {{ form_errors(form.duree) }}
+    {{ form_errors(form.Offres) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-success">S'abonner</button>
+    {{ form_end(form) }}
+{% endblock %}

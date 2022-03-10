@@ -6,7 +6,10 @@
             <meta charset="UTF-8">
         {% endblock %}
         {% block stylesheets %}
+         <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+           <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
         {% endblock %}
+       
     </head>
     <body {% block bodyclass %}class="" {% endblock %}>
 
@@ -19,6 +22,12 @@
             {% endif %}
         {% endblock %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        
+
+{% block javascripts %}
+
+
+    {% endblock %}
+
     </body>
 </html>
